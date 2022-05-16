@@ -6,13 +6,13 @@ const CELL_SIZE = 20;
 const WIDTH = 800;
 const HEIGHT = 600;
 
-
+r
 class Cell extends React.Component {
 
     render() {
         const { x, y } = this.props;
         return (
-            <div className="Cell" style={{
+            <div className="Cell" id={x+","+y} style={{
                 left: `${CELL_SIZE * x + 1}px`,
                 top: `${CELL_SIZE * y + 1}px`,
                 width: `${CELL_SIZE - 1}px`,
@@ -37,6 +37,7 @@ class Game extends React.Component {
         cells: [],
         isRunning: false,
         interval: 100,
+        iteration: 10
     }
 
     makeEmptyBoard() {
@@ -126,17 +127,20 @@ class Game extends React.Component {
         this.board = newBoard;
         this.setState({ cells: this.makeCells() });
 
-        this.timeoutHandler = window.setTimeout(() => {
-            this.runIteration();
-        }, this.state.interval);
+        this.state.iteration--;
+        console.log(this.state.iteration);
+
+        if(this.state.iteration == 0) {
+            this.stopGame;
+        } else {
+            this.timeoutHandler = window.setTimeout(() => {
+                this.runIteration();
+            }, this.state.interval);
+        }
+
+        
     }
 
-    /**
-     * Calculate the number of neighbors at point (x, y)
-     * @param {Array} board 
-     * @param {int} x 
-     * @param {int} y 
-     */
     calculateNeighbors(board, x, y) {
         let neighbors = 0;
         const dirs = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]];
@@ -157,6 +161,10 @@ class Game extends React.Component {
         this.setState({ interval: event.target.value });
     }
 
+    handleInterations = (event) => {
+        this.setState({ iteration: event.target.value });
+    }
+
     handleClear = () => {
         this.board = this.makeEmptyBoard();
         this.setState({ cells: this.makeCells() });
@@ -165,7 +173,7 @@ class Game extends React.Component {
     handleRandom = () => {
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.cols; x++) {
-                this.board[y][x] = (Math.random() >= 0.5);
+                this.board[y][x] = (Math.random() >= 0.4);
             }
         }
 
@@ -173,10 +181,10 @@ class Game extends React.Component {
     }
 
     render() {
-        const { cells, interval, isRunning } = this.state;
+        const { cells, interval, isRunning, iteration } = this.state;
         return (
             <div>
-                <div className="Board"
+                <div class="Board"
                     style={{ width: WIDTH, height: HEIGHT, backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}
                     onClick={this.handleClick}
                     ref={(n) => { this.boardRef = n; }}>
@@ -186,8 +194,9 @@ class Game extends React.Component {
                     ))}
                 </div>
 
-                <div className="controls">
-                    Update every <input value={this.state.interval} onChange={this.handleIntervalChange} /> msec
+                <div class="controls">
+                    speed <input value={this.state.interval} onChange={this.handleIntervalChange} /> 
+                    iterations <input value={this.state.iteration} onChange={this.handleInterations} /> 
                     {isRunning ?
                         <button className="button" onClick={this.stopGame}>Stop</button> :
                         <button className="button" onClick={this.runGame}>Run</button>
