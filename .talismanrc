@@ -4,3 +4,10 @@ fileignoreconfig:
 - filename: cypress/support/commands.js
   checksum: fe05ae48c75b1b0b0cfb43acd03f3cdee3f744069df0296fd86ee4da1081b680
 version: ""
+
+fileignoreconfig:
+- filename: src/components/Board/Board.js
+  checksum: 77811fdaaf49fd7d935003d2da9df6f8c98ecd195adc32b056dabf93195a582d
+- filename: src/Game.js
+  checksum: bd05b16443474e582406684255909888f4d8223ed5e2adeb440fabd5879157c3
+version: ""
