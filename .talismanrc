@@ -11,3 +11,8 @@ fileignoreconfig:
 - filename: src/Game.js
   checksum: bd05b16443474e582406684255909888f4d8223ed5e2adeb440fabd5879157c3
 version: ""
+
+fileignoreconfig:
+- filename: src/components/Board/Board.js
+  checksum: 772db2893551b848339e20ab7ecf0a9a4237681f1a51a52cbc2e5b9d8a033c27
+version: ""
